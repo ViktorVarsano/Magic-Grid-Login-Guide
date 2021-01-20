@@ -13,9 +13,8 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
-//        view.backgroundColor = .systemTeal
         let redView = UIView()
-        redView.backgroundColor = .red
+        redView.backgroundColor = .systemTeal
         redView.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
         
         view.addSubview(redView)
