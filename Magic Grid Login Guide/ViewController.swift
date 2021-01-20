@@ -13,15 +13,30 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
-        let redView = UIView()
-        redView.backgroundColor = .systemTeal
-        redView.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
-        
-        view.addSubview(redView)
-        
+        let numViewPerRow = 15
+        let width = view.frame.width / CGFloat(numViewPerRow)
+       
+        for j in 0...20{
+            for i in 0...numViewPerRow {
+                let redView = UIView()
+                redView.backgroundColor = randomColor()
+                redView.frame = CGRect(x: CGFloat(i) * width, y: CGFloat(j) * width, width: width, height: width)
+                
+                view.addSubview(redView)
+            }
+        }
+      
         
     }
+    
+    fileprivate func randomColor() -> UIColor {
+        
+        let red = CGFloat(drand48())
+        let green = CGFloat(drand48())
+        let blue = CGFloat(drand48())
 
+        return UIColor(red: red, green: green, blue: blue, alpha: 1)
+    }
 
 }
 
