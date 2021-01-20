@@ -34,9 +34,10 @@ class ViewController: UIViewController {
         view.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(handlePan)))
         }
     
+        var selectedCell: UIView?
+    
         @objc func handlePan(gesture: UIPanGestureRecognizer) {
             let location = gesture.location(in: view)
-//            print(location)
             let width = view.frame.width / CGFloat(numViewPerRow)
 
             let i = Int(location.x / width)
@@ -44,23 +45,44 @@ class ViewController: UIViewController {
             print(i,j)
             
             let key = "\(i)|\(j)"
-            let cellView = cells[key]
-            cellView?.backgroundColor = .white
+            guard let cellView = cells[key] else { return }
+                
+            if selectedCell != cellView {
+                UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut) {
+                    self.selectedCell?.layer.transform = CATransform3DIdentity
+                }
+
+            }
             
+            selectedCell = cellView
+            
+            view.bringSubviewToFront(cellView)
+            
+            UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut) {
+                
+                cellView.layer.transform = CATransform3DMakeScale(3, 3, 3)
+                
+            }
+            
+            if gesture.state == .ended {
+                UIView.animate(withDuration: 0.5, delay: 0.25, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.5, options: .curveEaseOut) {
+                
+                    cellView.layer.transform = CATransform3DIdentity
+                    
+                } completion: { (_) in
+                    
+                }
+    
+            }
 //            var loopCount = 0
 //            for subview in view.subviews {
 //                if subview.frame.contains(location) {
 //                    subview.backgroundColor = .black
 //                    loopCount += 1
 //                    print("Loopcount:", loopCount)
-
                 }
             }
             
-            
-
-    
-        
     fileprivate func randomColor() -> UIColor {
         
         let red = CGFloat(drand48())
@@ -71,8 +93,3 @@ class ViewController: UIViewController {
     }
     
     
-    
-    
-
-
-
